@@ -9,32 +9,32 @@ The oJSON object contains the following methods:
 oJSON.$jsontolistorrow(psData[,&psErrorText])
 ```
 Parse the JSON array or object in psData and return a row representing the JSON
-IN: psData - JSON to parse, psErrorText - contains the error if parsing fails
-OUT: vrJSON - row representing the JSON array or object, or NULL if parsing fails
+* IN: psData - JSON to parse, psErrorText - contains the error if parsing fails
+* OUT: vrJSON - row representing the JSON array or object, or NULL if parsing fails
 ```omnis
 oJSON.$listorrowtojson(prJSON)
 ```
 Encodes the row representing the JSON array or object as a character string
-IN: prJSON - row representing the JSON array or object
-OUT: vsData - unformatted JSON
+* IN: prJSON - row representing the JSON array or object
+* OUT: vsData - unformatted JSON
 ```omnis
 oJSON.$formatjson(psData)
 ```
 Parses the JSON in psData and returns a formatted representation
-IN: psData - JSON to format
-OUT: vsData - formatted JSON or error message if parsing fails
+* IN: psData - JSON to format
+* OUT: vsData - formatted JSON or error message if parsing fails
 ```omnis
 oJSON.$couldbearray(psData)
 ```
 Returns true if psData could be a JSON array because its first character is [
-IN: psData - JSON to parse
-OUT: kTrue if psData could be a JSON array	
+* IN: psData - JSON to parse
+* OUT: kTrue if psData could be a JSON array	
 ```omnis
 oJSON.$couldbeobject(psData)
 ```
 Returns true if psData could be a JSON object because its first character is {
-IN: psData - JSON to parse
-OUT: kTrue if psData could be a JSON object
+* IN: psData - JSON to parse
+* OUT: kTrue if psData could be a JSON object
 
 Note that there are a couple of (hopefully minor) differences between this class and the built-in class in Studio 8.
 Most of these are for features that we did not need for our project, so feel free to add them if you need them :-)
