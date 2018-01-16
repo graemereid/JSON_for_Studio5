@@ -1,0 +1,82 @@
+{
+	"classtype": "kObjectclass",
+	"internalversion": 13,
+	"cvardefs": [
+		{
+			"name": "clsArrayEndMarker",
+			"order": 5,
+			"type": "kCharacter",
+			"subtype": "kSimplechar",
+			"sublen": 1,
+			"initval": "']'"
+		},
+		{
+			"name": "clsArrayStartMarker",
+			"order": 4,
+			"type": "kCharacter",
+			"subtype": "kSimplechar",
+			"sublen": 1,
+			"initval": "'['"
+		},
+		{
+			"name": "clsElementSeparator",
+			"order": 6,
+			"type": "kCharacter",
+			"subtype": "kSimplechar",
+			"sublen": 1,
+			"initval": "','"
+		},
+		{
+			"name": "clsObjectEndMarker",
+			"order": 3,
+			"type": "kCharacter",
+			"subtype": "kSimplechar",
+			"sublen": 1,
+			"initval": "'}'"
+		},
+		{
+			"name": "clsObjectStartMarker",
+			"order": 2,
+			"type": "kCharacter",
+			"subtype": "kSimplechar",
+			"sublen": 1,
+			"initval": "'{'"
+		},
+		{
+			"name": "clsPairSeparator",
+			"order": 7,
+			"type": "kCharacter",
+			"subtype": "kSimplechar",
+			"sublen": 1,
+			"initval": "':'"
+		},
+		{
+			"name": "clsWhitespace",
+			"order": 1,
+			"type": "kCharacter",
+			"subtype": "kSimplechar",
+			"sublen": 10,
+			"initval": "con(kSp,kTab,kCr,kLf)"
+		}
+	],
+	"ivardefs": [
+
+	],
+	"properties": {
+		"collectperformancedata": false,
+		"componenticon": 0,
+		"componenttype": "kCompStoreHidden",
+		"createdate": "2018-01-16 09:00:44",
+		"desc": "",
+		"designtaskname": "Startup_Task",
+		"editor": "",
+		"editordata": "",
+		"external": true,
+		"issupercomponent": false,
+		"moddate": "2018-01-16 09:28:59",
+		"selfcontained": false,
+		"showascheckedout": false,
+		"userinfo": "",
+		"version": "1"
+	}
+}

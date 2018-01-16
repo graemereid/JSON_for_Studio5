@@ -1,0 +1,27 @@
+;  - Routine to convert a JSON Object to a string
+;  IN: prJSON - row representing the JSON array or object, pbFormat - determines whether the resulting string is formatted (kTrue) or compact (kFalse), psIndent - spacing to insert at the start of each line
+;  OUT: vsData - formatted or unformatted JSON
+;  Is this a JSON Array (ordered) or a JSON Object (unordered)
+Calculate vbOrdered as prJSON.$cols.1.$name='___1'
+Calculate vsData as pick(vbOrdered,clsObjectStartMarker,clsArrayStartMarker)
+Calculate vsIndent as pick(pbFormat,'',con(psIndent,kSp,kSp,kSp,kSp))
+
+For vnCol from 1 to prJSON.$colcount step 1
+	Calculate vsData as con(vsData,pick(vnCol>1,'',clsElementSeparator),pick(pbFormat,'',kCr),vsIndent)
+	If not(vbOrdered)     ;; object
+		Calculate vsKey as prJSON.$cols.[vnCol].$name
+		Calculate vsData as con(vsData,kDq,vsKey,kDq,pick(pbFormat,'',kSp),clsPairSeparator,pick(pbFormat,'',kSp))
+	End If     ;; object
+	If prJSON.$cols.[vnCol].$coltype=kRow
+		Do method encodeJSON (prJSON.C[vnCol],pbFormat,vsIndent) Returns vsValue
+		Calculate vsData as con(vsData,vsValue)
+	Else     ;; literal
+		Calculate vsValue as prJSON.C[vnCol]
+		Calculate vsData as con(vsData,kDq,vsValue,kDq)
+	End If     ;; literal
+End For     ;; vnCol
+
+Calculate vsData as con(vsData,pick(pbFormat,'',kCr),psIndent,pick(vbOrdered,clsObjectEndMarker,clsArrayEndMarker))
+Quit method vsData
+;  ---History
+;  12-01-18 GBR (ld0008546) Created

@@ -1,0 +1,7 @@
+;  - Returns true if psData could be a JSON array because its first character is [
+;  IN: psData - JSON to parse
+;  OUT: kTrue if psData could be a JSON array
+Do method removeWhitespace (psData,kTrue,kFalse) Returns psData
+Quit method mid(psData,1,1)=clsArrayStartMarker
+;  ---History
+;  15-01-18 GBR (ld0008546) Created

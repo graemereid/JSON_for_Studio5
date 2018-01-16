@@ -1,0 +1,11 @@
+;  - Parses the JSON in psData and returns a formatted representation
+;  IN: psData - JSON to format
+;  OUT: vsData - formatted JSON or error message if parsing fails
+Do $cinst.$jsontolistorrow(psData,vsErrorText) Returns vrJSON
+If isnull(vrJSON)
+	Calculate vsData as vsErrorText
+Else
+	Do method encodeJSON (vrJSON,kTrue,'') Returns vsData
+End If
+Quit method vsData
+;  15-01-18 GBR (ld0008546) Created

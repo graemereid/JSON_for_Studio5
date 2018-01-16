@@ -1,0 +1,22 @@
+;  - Sub-routine to parse the value part of a JSON key/value pair
+;  IN: psData - JSON to parse, psErrorText - contains the error if parsing fails, psEndMarker - character indicating the end of the current array or object
+;  OUT: vsValue - literal as a character string, or NULL on parsing failure
+If mid(psData,1,1)=kDq
+	;  If the literal value is quoted, then get everything up until the next quote
+	Calculate vnPosEndMarker as pos(kDq,mid(psData,2))+2
+Else
+	;  Otherwise get everything up until the next element separator or end marker (whichever is first)
+	Calculate vnPosSeparator as pos(clsElementSeparator,psData)
+	Calculate vnPosEndMarker as pos(psEndMarker,psData)
+	
+	If (vnPosSeparator=0)&(vnPosEndMarker=0)
+		Calculate psErrorText as con('Invalid JSON Object - missing end marker: ',psEndMarker)
+		Quit method #NULL
+	Else If (vnPosEndMarker=0)|((vnPosSeparator<>0)&(vnPosSeparator<vnPosEndMarker))
+		Calculate vnPosEndMarker as vnPosSeparator
+	End If
+End If
+Do method splitString (psData,vnPosEndMarker) Returns vsValue
+Quit method vsValue
+;  ---History
+;  11-01-18 GBR (ld0008546) Created

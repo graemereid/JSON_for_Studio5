@@ -1,0 +1,11 @@
+;  - Split a string in two from the separator position
+;  IN: psData - character string to split, pnPos - position at which to split the string
+;  OUT: vsValue - first part of the split string, psData contains the balance of the string
+Calculate vsValue as mid(psData,1,pnPos-1)     ;; everything before the separator
+Do method removeWhitespace (vsValue,kTrue,kTrue) Returns vsValue
+Calculate vsValue as trim(vsValue,kTrue,kTrue,kDq)     ;; remove the leading and trailing quotes, if any
+;  NOTE - leave any leading or trailing whitespace inside the quotes
+Calculate psData as mid(psData,pnPos)
+Quit method vsValue
+;  ---History
+;  11-01-18 GBR (ld0008546) Created

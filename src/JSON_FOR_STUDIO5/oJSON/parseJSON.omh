@@ -1,0 +1,67 @@
+;  - Parse the JSON array or object in psData and return a row representing the JSON
+;  IN: psData - JSON to parse, psErrorText - contains the error is parsing fails, pbOrdered - decode as a JSON array (kTrue) or a JSON object (kFalse)
+;  OUT: vrJSON - row representing the JSON array or object, or NULL if parsing fails
+;  A JSON Array is an ordered list of values (for which we generate the key based on the order)
+;  A JSON Object is an unordered list of key/value pairs
+;  Each value can either be a literal, an object, or an array
+Do vrJSON.$define()
+Calculate vnCount as 0
+Calculate vsEndMarker as pick(pbOrdered,clsObjectEndMarker,clsArrayEndMarker)
+Calculate psData as mid(psData,2)     ;; strip off the start marker
+
+While len(psData)
+	Do method removeWhitespace (psData,kTrue,kFalse) Returns psData
+	
+	If pbOrdered     ;; array
+		Calculate vnCount as vnCount+1
+		Calculate vsKey as jst(vnCount,'-4P_')     ;; pad the count with leading underscores up to 4 characters
+	Else     ;; object
+		;  Split the element into the key and the value
+		Calculate vnPos as pos(clsPairSeparator,psData)
+		Do method splitString (psData,vnPos) Returns vsKey
+		Calculate psData as mid(psData,2)     ;; strip off the pair separator
+		Do method removeWhitespace (psData,kTrue,kFalse) Returns psData
+	End If     ;; object
+	
+	;  Determine whether the value is an array, an object, or a literal
+	If $cinst.$couldbearray(psData)     ;; array
+		Do method parseJSON (psData,psErrorText,kTrue) Returns vrValue
+		If isnull(vrValue)
+			Quit method #NULL
+		End If
+		Do vrJSON.$cols.$add(vsKey,kRow)
+		Calculate vrJSON.[vsKey] as vrValue
+	Else If $cinst.$couldbeobject(psData)     ;; object
+		Do method parseJSON (psData,psErrorText,kFalse) Returns vrValue
+		If isnull(vrValue)
+			Quit method #NULL
+		End If
+		Do vrJSON.$cols.$add(vsKey,kRow)
+		Calculate vrJSON.[vsKey] as vrValue
+	Else     ;; literal
+		Do method parseLiteral (psData,psErrorText,vsEndMarker) Returns vsValue
+		If isnull(vsValue)
+			Quit method #NULL
+		End If
+		;  TODO - examine the decoded value and add different column types (boolean, integer, float, etc)
+		Do vrJSON.$cols.$add(vsKey,kCharacter,kSimplechar)
+		Calculate vrJSON.[vsKey] as vsValue
+	End If     ;; literal
+	
+	;  Determine whether this is the end of the object, or if there is more to come
+	If mid(psData,1,1)=clsElementSeparator     ;; still more to come
+		Calculate psData as mid(psData,2)     ;; strip off the separating comma
+	Else If mid(psData,1,1)=vsEndMarker     ;; end of object
+		Calculate psData as mid(psData,2)     ;; strip off the end marker
+		Do method removeWhitespace (psData,kTrue,kFalse) Returns psData
+		Quit method vrJSON
+	Else     ;; unexpected character
+		Calculate psErrorText as con('Invalid JSON Object - missing end marker: ',vsEndMarker)
+		Quit method #NULL
+	End If
+End While     ;; len(psData)
+
+Calculate psErrorText as 'Invalid JSON Object - Unexpected end of data'
+Quit method #NULL
+;  ---History
+;  11-01-18 GBR (ld0008546) Created

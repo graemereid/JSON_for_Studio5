@@ -1,0 +1,21 @@
+;  - Parse the JSON array or object in psData and return a row representing the JSON
+;  IN: psData - JSON to parse, psErrorText - contains the error if parsing fails
+;  OUT: vrJSON - row representing the JSON array or object, or NULL if parsing fails
+Do method removeWhitespace (psData,kTrue,kFalse) Returns psData
+If $cinst.$couldbearray(psData)     ;; array
+	Do method parseJSON (psData,psErrorText,kTrue) Returns vrJSON
+Else If $cinst.$couldbeobject(psData)     ;; object
+	Do method parseJSON (psData,psErrorText,kFalse) Returns vrJSON
+Else
+	Calculate psErrorText as con('Invalid JSON object - missing start marker: ',clsObjectStartMarker)
+	Quit method #NULL
+End If     ;; valid start marker
+
+If len(psData)
+	Calculate psErrorText as con('Extra data at end of JSON Object: ',psData)
+	Quit method #NULL
+End If
+
+Quit method vrJSON
+;  ---History
+;  11-01-18 GBR (ld0008546) Created

@@ -1,0 +1,58 @@
+;  - Test JSON parsing routine with some sample data
+;  - This is the WhereIs GeoCode response for the address of Logical Developments office in Perth, Western Australia
+Begin text block
+Text: {{}
+Text: {"keywords":"",}
+Text: {"results":[[}     ;; need to escape the open square bracket
+Text: {{}
+Text: {"id":"property-204716007",}
+Text: {"centrePoint":{}
+Text: {"lon":115.912667,}
+Text: {"lat":-32.006134}
+Text: {},}
+Text: {"streetPoint":{}
+Text: {"lon":115.912506,}
+Text: {"lat":-32.005934}
+Text: {},}
+Text: {"geometry":{}
+Text: {"centre":{}
+Text: {"lon":115.912667,}
+Text: {"lat":-32.006134}
+Text: {},}
+Text: {"street":{}
+Text: {"lon":115.912506,}
+Text: {"lat":-32.005934}
+Text: {}}
+Text: {},}
+Text: {"approximated":false,}
+Text: {"granularity":"PROPERTY",}
+Text: {"address":{}
+Text: {"number":"86",}
+Text: {"street":{}
+Text: {"name":"COOLGARDIE",}
+Text: {"type":"ST",}
+Text: {"display":"COOLGARDIE ST"}
+Text: {},}
+Text: {"property":"86 COOLGARDIE ST",}
+Text: {"suburb":"BENTLEY",}
+Text: {"postcode":"6102",}
+Text: {"regions":[[}     ;; need to escape the open square bracket
+Text: {"CANNING COUNCIL",}
+Text: {"GREATER PERTH",}
+Text: {"PERTH - SOUTHERN SUBURBS"}
+Text: {],}
+Text: {"state":"WA",}
+Text: {"display":"86 COOLGARDIE ST, BENTLEY, WA 6102"}
+Text: {}}
+Text: {}}
+Text: {],}
+Text: {"pagination":{"start":0,"total":1}}
+Text: {}}
+End text block
+Get text block vsSampleJSON
+Do voJSON.$jsontolistorrow(vsSampleJSON,vsErrorText) Returns vrJSON
+Breakpoint {vrJSON}
+Do voJSON.$listorrowtojson(vrJSON) Returns vsUnformattedJSON
+Breakpoint {vsUnformattedJSON}
+Do voJSON.$formatjson(vsSampleJSON) Returns vsFormattedJSON
+Breakpoint {vsFormattedJSON}

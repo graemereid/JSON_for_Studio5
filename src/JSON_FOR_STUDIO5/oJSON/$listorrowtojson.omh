@@ -1,0 +1,7 @@
+;  - Encodes the row representing the JSON array or object as a character string
+;  IN: prJSON - row representing the JSON array or object
+;  OUT: vsData - unformatted JSON
+Do method encodeJSON (prJSON,kFalse,'') Returns vsData
+Quit method vsData
+;  ---History
+;  12-01-18 GBR (ld0008546) Created

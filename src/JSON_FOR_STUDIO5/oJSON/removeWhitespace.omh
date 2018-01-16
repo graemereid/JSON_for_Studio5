@@ -1,0 +1,26 @@
+;  - Remove any leading and/or trailing whitespace from the string
+;  The whitespace character set is defined in the class variable clsWhitespace
+;  IN: psData - string to remove whitespace from, pbLeading - whether to remove leading whitespace, pbTrailing - whether to remove trailing whitespace
+;  OUT: psData - balance of string after whitespace removed
+Calculate pbLeading as pick(isnull(pbLeading),pbLeading,kTrue)
+If pbLeading
+	Calculate vnPos as 1
+	Calculate vnLength as len(psData)
+	While (pos(mid(psData,vnPos,1),clsWhitespace)>0)&(vnPos<=vnLength)
+		Calculate vnPos as vnPos+1
+	End While
+	Calculate psData as mid(psData,vnPos)
+End If     ;; pbLeading
+
+Calculate pbTrailing as pick(isnull(pbTrailing),pbTrailing,kTrue)
+If pbTrailing
+	Calculate vnPos as len(psData)
+	While (pos(mid(psData,vnPos,1),clsWhitespace)>0)&(vnPos>0)
+		Calculate vnPos as vnPos-1
+	End While
+	Calculate psData as mid(psData,1,vnPos)
+End If     ;; pbTrailing
+
+Quit method psData
+;  ---History
+;  11-01-18 GBR (ld0008546) Created
