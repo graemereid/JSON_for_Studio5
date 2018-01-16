@@ -1,5 +1,9 @@
 # Auto detect text files and perform LF normalization
 # * text=auto
 
+# Ensure library files are treated as binary.
+*.lbs binary
+
 # Declare files that will always have CRLF line endings on checkout.
 * .omh text eol=crlf
+
